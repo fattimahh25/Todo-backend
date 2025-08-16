@@ -1,24 +1,23 @@
-import mongoose from 'mongoose';
+// models/userprofile.js
+const mongoose = require("mongoose");
 
 const projectSchema = new mongoose.Schema(
-  {
-    title: { type: String, required: true },
-    description: { type: String, default: '' },
-    link: { type: String, default: '' }
-  },
+  { title: String, description: String, link: String },
   { _id: false }
 );
 
-const userProfileSchema = new mongoose.Schema(
+const profileSchema = new mongoose.Schema(
   {
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", unique: true, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },
+    github: { type: String, default: "" },
     skills: { type: [String], default: [] },
     projects: { type: [projectSchema], default: [] },
-    github: { type: String, default: '' }
+    template: { type: String, enum: ["classic", "cards"], default: "classic" },
+    theme: { type: String, enum: ["light", "dark"], default: "light" },
   },
   { timestamps: true }
 );
 
-export default mongoose.model('UserProfile', userProfileSchema);
+module.exports = mongoose.model("Profile", profileSchema);   // ✅ CommonJS export
